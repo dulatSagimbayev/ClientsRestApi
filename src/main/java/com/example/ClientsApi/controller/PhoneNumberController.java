@@ -1,14 +1,18 @@
-package com.example.ClientsApi;
+package com.example.ClientsApi.controller;
 
 import com.example.ClientsApi.exception.ResourceNotFoundException;
 import com.example.ClientsApi.model.Client;
 import com.example.ClientsApi.model.PhoneNumber;
 import com.example.ClientsApi.repository.ClientRepository;
 import com.example.ClientsApi.repository.PhoneNumberRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -19,12 +23,23 @@ public class PhoneNumberController {
     @Autowired
     private ClientRepository clientRepository;
 
+    @GetMapping("/clients/{clientId}/numbers")
+    public List<PhoneNumber> getContactByClientId(@PathVariable Long clientId) throws NotFoundException {
+
+        if(!clientRepository.existsById(clientId)) {
+            throw new NotFoundException("Student not found!");
+        }
+
+        return phoneNumberRepository.findByClientId(clientId);
+    }
+
     @PostMapping("/clients/{clientId}/numbers")
-    public Client createPhoneNumber(@PathVariable (value = "clientId") Long clientId,
+    public PhoneNumber createPhoneNumber(@PathVariable (value = "clientId") Long clientId,
                                     @Valid @RequestBody PhoneNumber phoneNumber){
-        return clientRepository.findById(clientId).map(client -> {
-            client.getNumbers().add(phoneNumber);
-            return clientRepository.save(client);
+        return clientRepository.findById(clientId)
+                .map(client -> {
+            phoneNumber.setClient(client);
+            return phoneNumberRepository.save(phoneNumber);
         }).orElseThrow(()->new ResourceNotFoundException("clientId "+clientId+" not found"));
     }
 

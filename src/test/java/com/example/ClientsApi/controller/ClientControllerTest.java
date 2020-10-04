@@ -1,6 +1,5 @@
 package com.example.ClientsApi.controller;
 
-import com.example.ClientsApi.ClientController;
 import com.example.ClientsApi.model.Client;
 import com.example.ClientsApi.model.PhoneNumber;
 import com.example.ClientsApi.repository.ClientRepository;
@@ -9,7 +8,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.coyote.http11.filters.SavedRequestInputFilter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -24,12 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -86,16 +84,20 @@ public class ClientControllerTest {
         mockClient1.setName("Dmitriy");
         mockClient1.setLastName("Moyseev");
         mockClient1.setSecondName("Aleksandrovych");
-        mockClient1.getNumbers().add(phoneNumber1);
-        mockClient1.getNumbers().add(phoneNumber2);
+        Set<PhoneNumber> set1= new HashSet<>();
+        set1.add(phoneNumber1);
+        set1.add(phoneNumber2);
+        mockClient1.setNumbers(set1);
 
         Client mockClient2 = new Client();
         mockClient2.setId(Long.valueOf(2));
         mockClient2.setName("Dulat");
         mockClient2.setLastName("Sagimbayev");
         mockClient2.setSecondName("Kayratovich");
-        mockClient2.getNumbers().add(phoneNumber3);
-        mockClient2.getNumbers().add(phoneNumber4);
+        Set<PhoneNumber> set2= new HashSet<>();
+        set2.add(phoneNumber3);
+        set2.add(phoneNumber4);
+        mockClient2.setNumbers(set2);
 
         List<Client> clientList = new ArrayList<>();
         clientList.add(mockClient1);
@@ -154,7 +156,7 @@ public class ClientControllerTest {
         client.setSecondName("Dmitryevich");
         PhoneNumber phoneNumber= new PhoneNumber("Office","5-12-32");
         phoneNumber.setId((long)1);
-        ArrayList<PhoneNumber> arrayList = new ArrayList<>();
+        Set<PhoneNumber> arrayList = new HashSet<>();
         arrayList.add(phoneNumber);
 
         client.setNumbers(arrayList);

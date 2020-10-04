@@ -1,4 +1,4 @@
-package com.example.ClientsApi;
+package com.example.ClientsApi.controller;
 
 import com.example.ClientsApi.exception.ResourceNotFoundException;
 import com.example.ClientsApi.model.Client;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -24,8 +25,9 @@ public class ClientController {
     public Client createClient(@Valid @RequestBody Client client){
         return clientRepository.save(client);
     }
+
     @GetMapping("/clients")
-    public Iterable<Client> displayClients(){
+    public List<Client> displayClients(){
         return clientRepository.findAll();
     }
     @PutMapping("/clients/{clientId}/refresh")
@@ -40,7 +42,7 @@ public class ClientController {
         return updatedClient;
     }
     @DeleteMapping("/clients/{clientId}/remove")
-    public String deletePhoneNumber(@PathVariable (value = "clientId" )Long clientId){
+    public String deleteClient(@PathVariable (value = "clientId" )Long clientId){
         return clientRepository.findById(clientId)
                 .map(client -> {
                     clientRepository.delete(client);

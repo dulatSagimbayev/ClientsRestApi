@@ -1,21 +1,26 @@
 package com.example.ClientsApi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "name")
     private String name;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "second_name")
     private String secondName;
 
     public Client(){
@@ -29,15 +34,13 @@ public class Client {
     }
 
     @OneToMany(mappedBy = "client",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    //@JoinColumn(name = "cn_id",referencedColumnName = "id")
-    //@OnDelete(action = OnDeleteAction.CASCADE)
-    List<PhoneNumber> numbers=new ArrayList<>();
+    private Set<PhoneNumber> numbers;
 
-    public List<PhoneNumber> getNumbers() {
+    public Set<PhoneNumber> getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(List<PhoneNumber> numbers) {
+    public void setNumbers(Set<PhoneNumber> numbers) {
         this.numbers = numbers;
     }
 
