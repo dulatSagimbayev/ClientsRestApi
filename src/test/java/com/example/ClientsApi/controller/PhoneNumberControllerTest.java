@@ -4,15 +4,11 @@ import com.example.ClientsApi.model.Client;
 import com.example.ClientsApi.model.PhoneNumber;
 import com.example.ClientsApi.repository.ClientRepository;
 import com.example.ClientsApi.repository.PhoneNumberRepository;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,10 +21,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = PhoneNumberController.class)
@@ -145,41 +139,10 @@ public class PhoneNumberControllerTest {
 
         assertThat(outputJson).isEqualTo("Phone number with id= 1 is deleted successful");
     }
-    /*@Test
-    public void testDeletePhoneNumber() throws Exception {
-        Client mockClient1 = new Client();
-        mockClient1.setId((long) 1);
-        mockClient1.setName("Bulat");
-        mockClient1.setLastName("Muhamed");
-        mockClient1.setSecondName("Alishev");
 
-        PhoneNumber phoneNumber1 = new PhoneNumber("Mobile","87773332290");
-        phoneNumber1.setId((long) 1);
-        Set<PhoneNumber> phoneNumbers1 = new HashSet<>();
-        phoneNumbers1.add(phoneNumber1);
-
-        String URI = "/clients/1/numbers/1/remove";
-
-        Mockito.when(clientRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(mockClient1));
-        Mockito.when(phoneNumberRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(phoneNumber1));
-
-        RequestBuilder requestBuilder= MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        String outputJson =result.getResponse().getContentAsString();
-        assertThat(outputJson).isEqualTo("Phone number with id= 1 is deleted successful");
-
-    }*/
     private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
     }
 
-    protected <T> T mapFromJson(String json, Class<T> clazz)
-            throws JsonParseException, JsonMappingException, IOException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, clazz);
-    }
 }

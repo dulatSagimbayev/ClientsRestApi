@@ -2,7 +2,6 @@ package com.example.ClientsApi.controller;
 
 import com.example.ClientsApi.exception.ResourceNotFoundException;
 import com.example.ClientsApi.model.Client;
-import com.example.ClientsApi.model.PhoneNumber;
 import com.example.ClientsApi.repository.ClientRepository;
 import com.example.ClientsApi.repository.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;

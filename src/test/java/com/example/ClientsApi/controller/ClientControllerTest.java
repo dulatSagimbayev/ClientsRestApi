@@ -4,9 +4,7 @@ import com.example.ClientsApi.model.Client;
 import com.example.ClientsApi.model.PhoneNumber;
 import com.example.ClientsApi.repository.ClientRepository;
 import com.example.ClientsApi.repository.PhoneNumberRepository;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +21,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -179,10 +176,4 @@ public class ClientControllerTest {
     return objectMapper.writeValueAsString(object);
     }
 
-    protected <T> T mapFromJson(String json, Class<T> clazz)
-            throws JsonParseException, JsonMappingException, IOException {
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    return objectMapper.readValue(json, clazz);
-    }
 }
